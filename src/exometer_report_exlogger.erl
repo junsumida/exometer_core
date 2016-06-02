@@ -94,8 +94,8 @@ exometer_report(Metric, DataPoint, _Extra, Value, #st{level = Level} = St)  ->
     %% Report the value and setup a new refresh timer.
     Str = [?MODULE_STRING, ": ", name(Metric, DataPoint),
         ":", value(Value), $\n],
-    LogInfo  = [{module_name, ?MODULE_STRING}, {list_to_atom(name(Metric, DataPoint)), value(Value)}],
-    'Elixir.IO':inspect(LogInfo),
+    %%LogInfo  = [{module_name, ?MODULE_STRING}, {list_to_atom(name(Metric, DataPoint)), value(Value)}],
+    'Elixir.Logger':warn(Str, [{module_name, ?MODULE_STRING}]),
     log(Level, Str),
     {ok, St}.
 
