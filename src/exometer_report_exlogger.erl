@@ -95,7 +95,7 @@ exometer_report(Metric, DataPoint, _Extra, Value, #st{level = Level} = St)  ->
     Str = [?MODULE_STRING, ": ", name(Metric, DataPoint),
         ":", value(Value), $\n],
     LogInfo  = [{module_name, ?MODULE_STRING}, {list_to_atom(name(Metric, DataPoint)), value(Value)}],
-    'Elixir.IO':inspect(Loginfo),
+    'Elixir.IO':inspect(LogInfo),
     log(Level, Str),
     {ok, St}.
 
