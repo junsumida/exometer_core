@@ -92,7 +92,7 @@ exometer_unsubscribe(_Metric, _DataPoint, _Extra, St) ->
 %% send out an update.
 exometer_report(Metric, DataPoint, _Extra, Value, #st{level = Level} = St)  ->
     %% Report the value and setup a new refresh timer.
-    Str = [?MODULE_STRING, ": ", name(Metric, DataPoint),
+    Str = [name(Metric, DataPoint),
            ":", value(Value), $\n],
     log(Level, lists:flatten(Str)),
     {ok, St}.
