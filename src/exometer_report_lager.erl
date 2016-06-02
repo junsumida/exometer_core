@@ -92,9 +92,9 @@ exometer_unsubscribe(_Metric, _DataPoint, _Extra, St) ->
 %% send out an update.
 exometer_report(Metric, DataPoint, _Extra, Value, #st{level = Level} = St)  ->
     %% Report the value and setup a new refresh timer.
-    Str = [name(Metric, DataPoint),
+    Str = [?MODULE_STRING, ": ", name(Metric, DataPoint),
            ":", value(Value), $\n],
-    log(Level, lists:flatten(Str)),
+    lager:log(Level, [{pid, self()},{from, exometer_report_larger},{metric_name, name(Metric, DataPoint)},{metric_value, to_integer(value(Value)), Str}]),
     {ok, St}.
 
 exometer_call(Unknown, From, St) ->
@@ -141,6 +141,3 @@ thing_to_list(E) when is_binary(E)  -> binary_to_list(E).
 value(V) when is_integer(V) -> integer_to_list(V);
 value(V) when is_float(V)   -> io_lib:format("~f", [V]);
 value(_) -> "0".
-
-log(Level, String) ->
-    lager:log(Level, [{pid, self()}, {from, exometer_report_larger}], String).
