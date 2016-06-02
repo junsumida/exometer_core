@@ -44,7 +44,7 @@
 %% </pre>
 %% @end
 
--module(exometer_report_lager).
+-module(exometer_report_exlogger).
 
 -behaviour(exometer_report).
 
@@ -92,10 +92,11 @@ exometer_unsubscribe(_Metric, _DataPoint, _Extra, St) ->
 %% send out an update.
 exometer_report(Metric, DataPoint, _Extra, Value, #st{level = Level} = St)  ->
     %% Report the value and setup a new refresh timer.
-    %% Str = [?MODULE_STRING, ": ", name(Metric, DataPoint),
-    %%       ":", value(Value), $\n],
-    LogInfo = [{:module_name, ?MODULE_STRING}, {name(Metric, DataPoint), value(Value)}]
-    log(Level, LogInfo),
+    Str = [?MODULE_STRING, ": ", name(Metric, DataPoint),
+        ":", value(Value), $\n],
+    LogInfo  = [{module_name, ?MODULE_STRING}, {list_to_atom(name(Metric, DataPoint)), value(Value)}],
+    'Elixir.IO':inspect(Loginfo)
+    log(Level, Str),
     {ok, St}.
 
 exometer_call(Unknown, From, St) ->
