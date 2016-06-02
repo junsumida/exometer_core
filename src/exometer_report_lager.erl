@@ -143,4 +143,4 @@ value(V) when is_float(V)   -> io_lib:format("~f", [V]);
 value(_) -> "0".
 
 log(Level, String) ->
-    lager:log(Level, self(), String).
+    lager:log(Level, [{pid, self()}, {from, exometer_report_larger}], String).
