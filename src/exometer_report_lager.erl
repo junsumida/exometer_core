@@ -95,7 +95,8 @@ exometer_report(Metric, DataPoint, _Extra, Value, #st{level = Level} = St)  ->
     Str = [?MODULE_STRING, ": ", name(Metric, DataPoint),
            ":", value(Value), $\n],
     {MetricValueInt, _} = string:to_integer(value(Value)),
-    log(Level, [{pid, self()},{from, exometer_report_larger},{metric_name, name(Metric, DataPoint)},{metric_value, MetricValueInt}], lists:flatten(Str)),
+    MetricNameBin = list_to_binary(name(Metric, DataPoint)),
+    log(Level, [{pid, self()},{from, exometer_report_larger},{metric_name, MetricNameBin},{metric_value, MetricValueInt}], lists:flatten(Str)),
     {ok, St}.
 
 exometer_call(Unknown, From, St) ->
