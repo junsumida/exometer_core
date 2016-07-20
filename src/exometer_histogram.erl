@@ -508,6 +508,5 @@ dupl(N,V) ->
     lists:duplicate(N, V).
 
 shuffle(List) ->
-    random:seed(random:seed0()),
-    Randomized = lists:keysort(1, [{random:uniform(), Item} || Item <- List]),
+    Randomized = lists:keysort(1, [{rand:uniform(), Item} || Item <- List]),
     [Value || {_, Value} <- Randomized].
